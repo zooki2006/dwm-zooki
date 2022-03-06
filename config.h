@@ -100,11 +100,12 @@ static const char *webcmd[] = {"firefox", NULL };
 static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 
 
-
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	/*{ MODKEY,                       XK_Print,  spawn,          SHCMD(scrot -e 'mv $f /my/screenshot/dir')}, */
+        { MODKEY,                       XK_Shift_R,spawn,          SHCMD("mixer set Capture toggle")},
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = i3dmenucmd } },	
 	{ MODKEY,                       XK_c,      spawn,          {.v = bluecmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = webcmd } },
