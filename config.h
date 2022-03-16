@@ -5,6 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+/* static const int user_bh            = 16;      */  /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */ 
+static const int user_bh            = 18;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -27,7 +29,7 @@ const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL
 const char *spcmd3[] = {"keepassxc",  NULL };
 const char *spcmd4[] = {"st", "-n", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
 const char *spcmd5[] = {"st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
-const char *spcmd6[] = {"steam", NULL };
+const char *spcmd6[] = {"steam", NULL }; 
 const char *spcmd7[] = {"st", "-n", "spcastero", "-g", "120x34", "-e", "castero", NULL };
 const char *spcmd8[] = {"st", "-n", "listbinds", "-g", "120x34", "-e", "cs.sh", NULL };
 static Sp scratchpads[] = {
@@ -55,7 +57,7 @@ static const Rule rules[] = {
   	{ NULL,	     "keepassxc", NULL,	     SPTAG(2),	        1,           -1 },
   	{ NULL,	     "spncspot",  NULL,	     SPTAG(3),	        1,           -1 },
   	{ NULL,      "spcmus",    NULL,      SPTAG(4),          1,           -1 },
-  	{ NULL,      "Steam",     NULL,      SPTAG(5),          0,           -1 },
+  	{ NULL,      "Steam",     NULL,      SPTAG(5),          0,           -1 }, 
   	{ NULL,      "spcastero", NULL,      SPTAG(6),          1,           -1 },
   	{ NULL,      "listbinds", NULL,      SPTAG(7),          1,           -1 },
 };
@@ -104,7 +106,7 @@ static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	/*{ MODKEY,                       XK_Print,  spawn,          SHCMD(scrot -e 'mv $f /my/screenshot/dir')}, */
+	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -e 'mv $f ~/screenshot'")}, 
         { MODKEY,                       XK_F4,     spawn,          SHCMD("amixer set Capture toggle") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = i3dmenucmd } },	
 	{ MODKEY,                       XK_c,      spawn,          {.v = bluecmd } },
@@ -140,7 +142,8 @@ static Key keys[] = {
 	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            		XK_w,	   togglescratch,  {.ui = 3 } },
 	{ MODKEY,            		XK_s,	   togglescratch,  {.ui = 4 } },
-	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } },
+	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } }, 
+/*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
 	{ MODKEY,            		XK_a,	   togglescratch,  {.ui = 6 } },
 	{ MODKEY,            		XK_i,	   togglescratch,  {.ui = 7 } },
 	TAGKEYS(                        XK_1,                      0)
