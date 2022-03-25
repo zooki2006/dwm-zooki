@@ -47,10 +47,15 @@ static const Rule rules[] = {
          *      WM_CLASS(STRING) = instance, class
          *      WM_NAME(STRING) = title
          */
-        /* class      instance    title       tags mask     isfloating   monitor */
-  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
-	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
-/*	{ NULL,	     "spterm",	  NULL,      SPTAG(0),	        1,	     -1 },
+ 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
+	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
+	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,        0  },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },       
+	/* class      instance    title       tags mask     isfloating   monitor */
+/*  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
+ *	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
+ *	{ NULL,	     "spterm",	  NULL,      SPTAG(0),	        1,	     -1 },
  *	{ NULL,	     "spfm",	  NULL,	     SPTAG(1),	        1,	     -1 },
  *	{ NULL,	     "keepassxc", NULL,	     SPTAG(2),	        1,           -1 },
  *	{ NULL,	     "spncspot",  NULL,	     SPTAG(3),	        1,           -1 },
