@@ -1310,10 +1310,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
 	c->oldh = c->h; c->h = wc.height = h;
-	if (c->isfloating && !c->isfullscreen)
-		wc.border_width = 0;
-	else
-		wc.border_width = c->bw;
+	wc.border_width = c->bw;
 	if (ispanel(c)) c->y = c->oldy = c->bw = wc.y = wc.border_width = 0;
 
 	for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
