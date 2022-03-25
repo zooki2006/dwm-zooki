@@ -3,6 +3,7 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const char panel[][20]       = { "xfce4-panel", "Xfce4-panel" }; /* name & cls of panel win */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const int user_bh            = 16;      */  /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */ 
@@ -20,29 +21,25 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
-typedef struct {
-	const char *name;
-	const void *cmd;
-} Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"keepassxc",  NULL };
-const char *spcmd4[] = {"st", "-n", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
-const char *spcmd5[] = {"st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
-const char *spcmd6[] = {"steam", NULL }; 
-const char *spcmd7[] = {"st", "-n", "spcastero", "-g", "120x34", "-e", "castero", NULL };
-const char *spcmd8[] = {"st", "-n", "listbinds", "-g", "120x34", "-e", "cs.sh", NULL };
-static Sp scratchpads[] = {
-	/* name          cmd  */
-	{"spterm",      spcmd1},
-	{"spranger",    spcmd2},
-	{"keepassxc",   spcmd3},
-	{"spncspot", 	spcmd4},
-	{"spcmus", 	spcmd5}, 
-	{"Steam", 	spcmd6}, 
-	{"spcastero", 	spcmd7}, 
-	{"listbinds", 	spcmd8}, 
-};
+/*	const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+ *	const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+ *	const char *spcmd3[] = {"keepassxc",  NULL };
+ *	const char *spcmd4[] = {"st", "-n", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
+ *	const char *spcmd5[] = {"st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
+ *	const char *spcmd6[] = {"steam", NULL }; 
+ *	const char *spcmd7[] = {"st", "-n", "spcastero", "-g", "120x34", "-e", "castero", NULL };
+ *	const char *spcmd8[] = {"st", "-n", "listbinds", "-g", "120x34", "-e", "cs.sh", NULL };
+ *	static Sp scratchpads[] = {
+ *	* name          cmd  *
+ *	{"spterm",      spcmd1},
+ *	{"spranger",    spcmd2},
+ *	{"keepassxc",   spcmd3},
+ *	{"spncspot", 	spcmd4},
+ *	{"spcmus", 	spcmd5}, 
+ *	{"Steam", 	spcmd6}, 
+ *	{"spcastero", 	spcmd7}, 
+ *	{"listbinds", 	spcmd8}, 
+}; */
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Rule rules[] = {
@@ -52,14 +49,15 @@ static const Rule rules[] = {
          */
         /* class      instance    title       tags mask     isfloating   monitor */
   	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
-	{ NULL,	     "spterm",	  NULL,      SPTAG(0),	        1,	     -1 },
-	{ NULL,	     "spfm",	  NULL,	     SPTAG(1),	        1,	     -1 },
-  	{ NULL,	     "keepassxc", NULL,	     SPTAG(2),	        1,           -1 },
-  	{ NULL,	     "spncspot",  NULL,	     SPTAG(3),	        1,           -1 },
-  	{ NULL,      "spcmus",    NULL,      SPTAG(4),          1,           -1 },
-  	{ NULL,      "Steam",     NULL,      SPTAG(5),          0,           -1 }, 
-  	{ NULL,      "spcastero", NULL,      SPTAG(6),          1,           -1 },
-  	{ NULL,      "listbinds", NULL,      SPTAG(7),          1,           -1 },
+	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
+/*	{ NULL,	     "spterm",	  NULL,      SPTAG(0),	        1,	     -1 },
+ *	{ NULL,	     "spfm",	  NULL,	     SPTAG(1),	        1,	     -1 },
+ *	{ NULL,	     "keepassxc", NULL,	     SPTAG(2),	        1,           -1 },
+ *	{ NULL,	     "spncspot",  NULL,	     SPTAG(3),	        1,           -1 },
+ *	{ NULL,      "spcmus",    NULL,      SPTAG(4),          1,           -1 },
+ *	{ NULL,      "Steam",     NULL,      SPTAG(5),          0,           -1 }, 
+ *	{ NULL,      "spcastero", NULL,      SPTAG(6),          1,           -1 },
+ *  	{ NULL,      "listbinds", NULL,      SPTAG(7),          1,           -1 }, */
 };
 
 /* layout(s) */
@@ -113,7 +111,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+/*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = +1 } },
@@ -137,15 +137,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
-	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
-	{ MODKEY,            		XK_w,	   togglescratch,  {.ui = 3 } },
-	{ MODKEY,            		XK_s,	   togglescratch,  {.ui = 4 } },
-	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } }, 
-/*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
-	{ MODKEY,            		XK_a,	   togglescratch,  {.ui = 6 } },
-	{ MODKEY,            		XK_i,	   togglescratch,  {.ui = 7 } },
+/*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
+ *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
+ *	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
+ *	{ MODKEY,            		XK_w,	   togglescratch,  {.ui = 3 } },
+ *	{ MODKEY,            		XK_s,	   togglescratch,  {.ui = 4 } },
+ *	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } },
+ *	{ MODKEY,            		XK_a,	   togglescratch,  {.ui = 6 } },
+ *	{ MODKEY,            		XK_i,	   togglescratch,  {.ui = 7 } }, */
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
