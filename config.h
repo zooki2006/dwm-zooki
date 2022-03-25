@@ -104,6 +104,8 @@ static const char *steamcmd[] = { "steam", NULL };
 static const char *webcmd[] = {"firefox", NULL };
 static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
 
 #include "movestack.c"
 static Key keys[] = {
@@ -142,6 +144,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 /*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
  *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
  *	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
