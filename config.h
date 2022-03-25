@@ -49,9 +49,10 @@ static const Rule rules[] = {
          */
  	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
-	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
-	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,        0  },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },       
+	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,       'b' },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },     
+	{ NULL,       NULL,   "listbinds",    0,            1,           -1,       'l' },     
+
 	/* class      instance    title       tags mask     isfloating   monitor */
 /*  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
  *	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
@@ -106,6 +107,8 @@ static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
+static const char *barcmd[] = {"b", "panel", "-d", NULL}; 
+static const char *listcmd[] = {"l", "st", "-t", "listbinds", "-e", "binds.sh", NULL }; 
 
 #include "movestack.c"
 static Key keys[] = {
@@ -119,8 +122,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 /*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") },
+/*	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") }, */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = +1 } },
@@ -144,7 +147,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY,                       XK_y,      togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY,                       XK_i,      togglescratch,  {.v = listcmd } },
+	{ MODKEY,                       XK_b,      togglescratch,  {.v = barcmd } },
 /*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
  *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
  *	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
