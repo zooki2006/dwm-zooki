@@ -51,7 +51,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
 	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,       'b' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },     
-	{ NULL,       NULL,   "listbinds",    0,            1,           -1,       'l' },     
+	{ NULL,       NULL,   "splistbinds", 0,            1,           -1,       'l' },   	       { NULL,       NULL,      "spcmus",   0,            1,           -1,        'c' },
 
 	/* class      instance    title       tags mask     isfloating   monitor */
 /*  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
@@ -108,7 +108,9 @@ static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
 static const char *barcmd[] = {"b", "panel", "-d", NULL}; 
-static const char *listcmd[] = {"l", "st", "-t", "listbinds", "-e", "binds.sh", NULL }; 
+static const char *listcmd[] = {"l", "st", "-t", "splistbinds", "-e", "binds.sh", NULL }; 
+static const char *cmuscmd[] = {"c", "st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
+
 
 #include "movestack.c"
 static Key keys[] = {
@@ -149,6 +151,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_y,      togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_i,      togglescratch,  {.v = listcmd } },
+	{ MODKEY,                       XK_s,      togglescratch,  {.v = cmuscmd } },
 	{ MODKEY,                       XK_b,      togglescratch,  {.v = barcmd } },
 /*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
  *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
