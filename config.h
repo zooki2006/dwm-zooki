@@ -51,8 +51,12 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
 	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,       'b' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },     
-	{ NULL,       NULL,   "splistbinds", 0,            1,           -1,       'l' },   	       { NULL,       NULL,      "spcmus",   0,            1,           -1,        'c' },
-
+	{ NULL,       NULL,   "splistbinds",  0,            1,           -1,       'l' },    
+	{ NULL,       NULL,      "spcmus",    0,            1,           -1,       'c' },
+	{ NULL,       NULL,      "spncspot",  0,            1,           -1,       'w' },
+	{ NULL,       NULL,      "sppod",     0,            1,           -1,       'a' },
+	{ NULL,      "Steam",     NULL,       0,            0,           -1,       'z' },
+ 	{ NULL,	     "keepassxc", NULL,	      0,	    1,           -1,       'x' },
 	/* class      instance    title       tags mask     isfloating   monitor */
 /*  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
  *	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
@@ -101,16 +105,20 @@ static const char *i3dmenucmd[] = { "i3-dmenu-desktop", NULL };
 static const char *powercmd[] = { "rofi-power-menu", NULL }; 
 static const char *bluecmd[] = {"rofi-bluetooth", NULL };
 /* programs */
-static const char *steamcmd[] = { "steam", NULL }; 
+/* static const char *steamcmd[] = { "steam", NULL }; */
 static const char *webcmd[] = {"firefox", NULL };
 static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 
+/* scratchpads */
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
 static const char *barcmd[] = {"b", "panel", "-d", NULL}; 
 static const char *listcmd[] = {"l", "st", "-t", "splistbinds", "-e", "binds.sh", NULL }; 
-static const char *cmuscmd[] = {"c", "st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
-
+static const char *cmuscmd[] = {"c", "st", "-t", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
+static const char *podcmd[] = {"a", "st", "-t", "sppod", "-g", "120x34", "-e", "castero", NULL };
+static const char *ncspotcmd[] = {"w", "st", "-t", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
+static const char *steamcmd[] = {"z", "steam", NULL }; 
+static const char *keycmd[] = {"x", "keepassxc", NULL }; 
 
 #include "movestack.c"
 static Key keys[] = {
@@ -124,8 +132,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 /*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
-/*	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") }, */
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
+/*	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") }, */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = +1 } },
@@ -152,15 +160,20 @@ static Key keys[] = {
 	{ MODKEY,                       XK_y,      togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_i,      togglescratch,  {.v = listcmd } },
 	{ MODKEY,                       XK_s,      togglescratch,  {.v = cmuscmd } },
+	{ MODKEY,                       XK_a,      togglescratch,  {.v = podcmd } },
+	{ MODKEY,                       XK_w,      togglescratch,  {.v = ncspotcmd } },
 	{ MODKEY,                       XK_b,      togglescratch,  {.v = barcmd } },
-/*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } },
- *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
- *	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
- *	{ MODKEY,            		XK_w,	   togglescratch,  {.ui = 3 } },
- *	{ MODKEY,            		XK_s,	   togglescratch,  {.ui = 4 } },
- *	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } },
- *	{ MODKEY,            		XK_a,	   togglescratch,  {.ui = 6 } },
- *	{ MODKEY,            		XK_i,	   togglescratch,  {.ui = 7 } }, */
+	{ MODKEY|ShiftMask,             XK_b,      togglescratch,  {.v = barcmd } },
+	{ MODKEY,                       XK_x,      togglescratch,  {.v = keycmd } },
+	{ MODKEY,                       XK_z,      togglescratch,  {.v = steamcmd } },
+/*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } }, coverted
+ *	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } }, 
+ *	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } }, coverted
+ *	{ MODKEY,            		XK_w,	   togglescratch,  {.ui = 3 } }, converted
+ *	{ MODKEY,            		XK_s,	   togglescratch,  {.ui = 4 } }, converted
+ *	{ MODKEY,            		XK_z,	   togglescratch,  {.ui = 5 } }, converted
+ *	{ MODKEY,            		XK_a,	   togglescratch,  {.ui = 6 } }, converted
+ *	{ MODKEY,            		XK_i,	   togglescratch,  {.ui = 7 } }, converted*/
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
