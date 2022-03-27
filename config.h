@@ -3,7 +3,11 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const char panel[][20]       = { "xfce4-panel", "Xfce4-panel" }; /* name & cls of panel win */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft = 1;   	/* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const int user_bh            = 16;      */  /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */ 
@@ -49,7 +53,6 @@ static const Rule rules[] = {
          */
  	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
-	{ panel[1],   NULL,       NULL,       (1 << 9) - 1, 0,           -1,       'b' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },     
 	{ NULL,       NULL,   "splistbinds",  0,            1,           -1,       'l' },    
 	{ NULL,       NULL,      "spcmus",    0,            1,           -1,       'c' },
@@ -112,7 +115,6 @@ static const char *miccmd[] = {"amixer set Capture toggle", NULL };
 /* scratchpads */
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL}; 
-static const char *barcmd[] = {"b", "panel", "-d", NULL}; 
 static const char *listcmd[] = {"l", "st", "-t", "splistbinds", "-e", "binds.sh", NULL }; 
 static const char *cmuscmd[] = {"c", "st", "-t", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
 static const char *podcmd[] = {"a", "st", "-t", "sppod", "-g", "120x34", "-e", "castero", NULL };
@@ -133,7 +135,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 /*	{ MODKEY,                       XK_z,      spawn,          {.v = steamcmd } }, */
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-/*	{ MODKEY,                       XK_b,      spawn,      	   SHCMD("xfce4-panel-toggle") }, */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = +1 } },
@@ -162,8 +163,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_s,      togglescratch,  {.v = cmuscmd } },
 	{ MODKEY,                       XK_a,      togglescratch,  {.v = podcmd } },
 	{ MODKEY,                       XK_w,      togglescratch,  {.v = ncspotcmd } },
-	{ MODKEY,                       XK_b,      togglescratch,  {.v = barcmd } },
-	{ MODKEY|ShiftMask,             XK_b,      togglescratch,  {.v = barcmd } },
 	{ MODKEY,                       XK_x,      togglescratch,  {.v = keycmd } },
 	{ MODKEY,                       XK_z,      togglescratch,  {.v = steamcmd } },
 /*	{ MODKEY,            		XK_y,  	   togglescratch,  {.ui = 0 } }, coverted
