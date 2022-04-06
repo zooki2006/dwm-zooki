@@ -25,25 +25,6 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
-/*	const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
- *	const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
- *	const char *spcmd3[] = {"keepassxc",  NULL };
- *	const char *spcmd4[] = {"st", "-n", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
- *	const char *spcmd5[] = {"st", "-n", "spcmus", "-g", "120x34", "-e", "cmus", NULL };
- *	const char *spcmd6[] = {"steam", NULL }; 
- *	const char *spcmd7[] = {"st", "-n", "spcastero", "-g", "120x34", "-e", "castero", NULL };
- *	const char *spcmd8[] = {"st", "-n", "listbinds", "-g", "120x34", "-e", "cs.sh", NULL };
- *	static Sp scratchpads[] = {
- *	* name          cmd  *
- *	{"spterm",      spcmd1},
- *	{"spranger",    spcmd2},
- *	{"keepassxc",   spcmd3},
- *	{"spncspot", 	spcmd4},
- *	{"spcmus", 	spcmd5}, 
- *	{"Steam", 	spcmd6}, 
- *	{"spcastero", 	spcmd7}, 
- *	{"listbinds", 	spcmd8}, 
-}; */
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Rule rules[] = {
@@ -51,7 +32,7 @@ static const Rule rules[] = {
          *      WM_CLASS(STRING) = instance, class
          *      WM_NAME(STRING) = title
          */
- 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
+ 	/* class      instance    title       tags mask     isfloating   monitor    scratch  */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },     
 	{ NULL,       NULL,   "splistbinds",  0,            1,           -1,       'l' },    
@@ -60,6 +41,7 @@ static const Rule rules[] = {
 	{ NULL,       NULL,      "sppod",     0,            1,           -1,       'a' },
 	{ NULL,      "Steam",     NULL,       0,            0,           -1,       'z' },
  	{ NULL,	     "keepassxc", NULL,	      0,	    1,           -1,       'x' },
+ /*	{ NULL,	     "Modded Slay the Spire", NULL,	    0,	    1,           -1,       0 }, */
 	/* class      instance    title       tags mask     isfloating   monitor */
 /*  	{ "Gimp",     NULL,       NULL,           0,            1,           -1 },
  *	{ panel[1],   NULL,       NULL,       (1 << 9) - 1,     0,           -1 },
@@ -79,11 +61,15 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
+
+#include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+ 	{ "[@]",      spiral },
+ 	{ "[\\]",      dwindle },
 };
 
 /* key definitions */
@@ -93,6 +79,17 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+
+
+#define BrightDown	0x1008ff03
+#define BrightUp	0x1008ff02
+#define AudioMute	0x1008ff12
+#define AudioPlay	0x1008ff14
+#define AudioNext	0x1008ff17
+#define AudioPrev	0x1008ff16
+#define AudioDown	0x1008ff11
+#define AudioUp		0x1008ff13
+#define Print		0xff61
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -124,12 +121,14 @@ static const char *keycmd[] = {"x", "keepassxc", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
-	/* modifier                     key        function        argument */
+	/* modifier                     iey        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -e 'mv $f ~/screenshot'")}, 
         { MODKEY,                       XK_F4,     spawn,          SHCMD("amixer set Capture toggle") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = i3dmenucmd } },	
 	{ MODKEY,                       XK_c,      spawn,          {.v = bluecmd } },
+	{ MODKEY,                       XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_websearch")},
+	{ MODKEY|ShiftMask,                       XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_bookmarks_menu")},
 	{ MODKEY,                       XK_e,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
@@ -148,8 +147,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} }, 
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
 
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -158,6 +158,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	/* VOLUME */
+	{0,                             AudioDown,	spawn,	SHCMD("volumeControl.sh down")  },
+	{0,                             AudioUp,	spawn,	SHCMD("volumeControl.sh up")  },
+	{0,                             AudioMute,	spawn,	SHCMD("volumeControl.sh mute")  },
 	{ MODKEY,                       XK_y,      togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_i,      togglescratch,  {.v = listcmd } },
 	{ MODKEY,                       XK_s,      togglescratch,  {.v = cmuscmd } },
