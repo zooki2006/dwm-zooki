@@ -62,14 +62,11 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 
-#include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
- 	{ "[@]",      spiral },
- 	{ "[\\]",      dwindle },
 };
 
 /* key definitions */
@@ -128,7 +125,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = i3dmenucmd } },	
 	{ MODKEY,                       XK_c,      spawn,          {.v = bluecmd } },
 	{ MODKEY,                       XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_websearch")},
-	{ MODKEY|ShiftMask,                       XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_bookmarks_menu")},
+	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_bookmarks_menu")},
+	{ MODKEY,                       XK_m,  	   spawn,          SHCMD("nyrna -t")}, 
+	{ MODKEY|ShiftMask,             XK_m,  	   spawn,          SHCMD("nyrna")}, 
 	{ MODKEY,                       XK_e,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
@@ -148,8 +147,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
 
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
