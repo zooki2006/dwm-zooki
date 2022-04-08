@@ -104,7 +104,7 @@ static const char *bluecmd[] = {"rofi-bluetooth", NULL };
 /* programs */
 /* static const char *steamcmd[] = { "steam", NULL }; */
 static const char *webcmd[] = {"firefox", NULL };
-static const char *miccmd[] = {"amixer set Capture toggle", NULL };
+static const char *nyrna[] = {"nyrna", NULL };
 
 /* scratchpads */
 /*First arg only serves to match against key in rules*/
@@ -127,7 +127,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_websearch")},
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("ifbrowser.sh dmenu_bookmarks_menu")},
 	{ MODKEY,                       XK_m,  	   spawn,          SHCMD("nyrna -t")}, 
-	{ MODKEY|ShiftMask,             XK_m,  	   spawn,          SHCMD("nyrna")}, 
+	{ MODKEY|ShiftMask,             XK_m,  	   spawn,          {.v = nyrna } }, 
 	{ MODKEY,                       XK_e,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_Pause,  spawn,          {.v = powercmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
