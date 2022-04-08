@@ -1187,6 +1187,20 @@ manage(Window w, XWindowAttributes *wa)
 	c->bw = borderpx;
 
 	wc.border_width = c->bw;
+
+	unsigned int Centerw;
+	unsigned int Centerh;
+	/* Centerw = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;	
+	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+	if (c->isfloating && c->h > (Centerh * 6) && c->w > (Centerw * 8)){
+		wc.border_width = 0;
+	} */
+	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
+	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
+	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
+		wc.border_width = 0;
+	}
+
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
@@ -1470,7 +1484,18 @@ resizeclient(Client *c, int x, int y, int w, int h)
 			c->h = wc.height += c->bw * 2;
 		}
 	}
-
+	unsigned int Centerw;
+	unsigned int Centerh;
+	/* Centerw = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;	
+	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+	if (c->isfloating && c->h > (Centerh * 6) && c->w > (Centerw * 8)){
+		wc.border_width = 0;
+	} */
+	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
+	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
+	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
+		wc.border_width = 0;
+	}
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
