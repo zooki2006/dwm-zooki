@@ -1188,11 +1188,7 @@ manage(Window w, XWindowAttributes *wa)
 
 	wc.border_width = c->bw;
 
-	unsigned int Centerw;
-	unsigned int Centerh;
-	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
-	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
-	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
+	if (c->isfloating && c->h > (c->mon->mh - (1 + bh)) && c->w > (c->mon->mw - 1) ){
 		wc.border_width = 0;
 	}
 
@@ -1479,11 +1475,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 			c->h = wc.height += c->bw * 2;
 		}
 	}
-	unsigned int Centerw;
-	unsigned int Centerh;
-	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
-	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
-	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
+	if (c->isfloating && c->h > (c->mon->mh - (1 + bh)) && c->w > (c->mon->mw - 1) ){
 		wc.border_width = 0;
 	}
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
