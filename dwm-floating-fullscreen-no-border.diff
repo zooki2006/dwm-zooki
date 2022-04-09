@@ -1,0 +1,20 @@
+From cbc5c7384945a5aed590e0ba56c1d10a781a4c18 Mon Sep 17 00:00:00 2001
+From: lucy <fleshshell@cock.li>
+Date: Sat, 9 Apr 2022 15:00:25 +0100
+Subject: [PATCH] fix programs in "borderless fullscreen" having a border
+
+
+diff --git a/dwm.c b/dwm.c
+index 5f16260..751fa76 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1287,6 +1287,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
+ 	c->oldw = c->w; c->w = wc.width = w;
+ 	c->oldh = c->h; c->h = wc.height = h;
+ 	wc.border_width = c->bw;
++	if (c->isfloating && c->h > (c->mon->mh - (1 + bh + (c->bw * 2))) && c->w > (c->mon->mw - (1 + (c->bw * 2) )) ){
++		wc.border_width = 0;
++	}
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+ 	XSync(dpy, False);
