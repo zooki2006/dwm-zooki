@@ -1,7 +1,7 @@
 From 0beac519be8a846b1ed8040a7b076d4297f7595b Mon Sep 17 00:00:00 2001
 From: lucy <fleshshell@cock.li>
 Date: Sat, 9 Apr 2022 08:36:24 +0100
-Subject: change this to patch
+Subject: [PATCH] i have no idea what im doing
 
 
 diff --git a/dwm.c b/dwm.c

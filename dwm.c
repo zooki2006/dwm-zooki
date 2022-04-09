@@ -1190,11 +1190,6 @@ manage(Window w, XWindowAttributes *wa)
 
 	unsigned int Centerw;
 	unsigned int Centerh;
-	/* Centerw = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;	
-	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
-	if (c->isfloating && c->h > (Centerh * 6) && c->w > (Centerw * 8)){
-		wc.border_width = 0;
-	} */
 	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
 	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
 	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
@@ -1486,11 +1481,6 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	}
 	unsigned int Centerw;
 	unsigned int Centerh;
-	/* Centerw = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;	
-	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
-	if (c->isfloating && c->h > (Centerh * 6) && c->w > (Centerw * 8)){
-		wc.border_width = 0;
-	} */
 	Centerw = c->mon->mx + (c->mon->mw - WIDTH(c));	
 	Centerh = c->mon->my + (c->mon->mh - HEIGHT(c));
 	if (c->isfloating && c->h > (Centerh - 1) && c->w > (Centerw - 1)){
