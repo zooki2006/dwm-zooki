@@ -1,0 +1,30 @@
+From 189b21d547fdb981696f4875d7c56674153a55e1 Mon Sep 17 00:00:00 2001
+From: lucy <fleshshell@cock.li>
+Date: Sat, 9 Apr 2022 10:13:41 +0100
+Subject: [PATCH] removes border when windows over moniter size -barhight
+
+
+diff --git a/dwm.c b/dwm.c
+index 5f16260..e4ca210 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1055,6 +1055,9 @@ manage(Window w, XWindowAttributes *wa)
+ 	c->bw = borderpx;
+ 
+ 	wc.border_width = c->bw;
++	if (c->isfloating && c->h > (c->mon->mh - (1 + bh)) && c->w > (c->mon->mw - 1) ){
++		wc.border_width = 0;
++	}
+ 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
+ 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
+ 	configure(c); /* propagates border_width, if size doesn't change */
+@@ -1287,6 +1290,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
+ 	c->oldw = c->w; c->w = wc.width = w;
+ 	c->oldh = c->h; c->h = wc.height = h;
+ 	wc.border_width = c->bw;
++	if (c->isfloating && c->h > (c->mon->mh - (1 + bh)) && c->w > (c->mon->mw - 1) ){
++		wc.border_width = 0;
++	}
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+ 	XSync(dpy, False);
