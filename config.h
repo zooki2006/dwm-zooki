@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 16;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 1;   	/* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -22,6 +22,7 @@ static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	/* [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  }, */
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
@@ -59,7 +60,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 
 static const Layout layouts[] = {
@@ -115,6 +116,8 @@ static const char *podcmd[] = {"a", "st", "-t", "sppod", "-g", "120x34", "-e", "
 static const char *ncspotcmd[] = {"w", "st", "-t", "spncspot", "-g", "120x34", "-e", "ncspot", NULL };
 static const char *steamcmd[] = {"z", "steam", NULL }; 
 static const char *keycmd[] = {"x", "keepassxc", NULL }; 
+//static const char *firefox[] = {"x", "keepassxc", NULL }; 
+//static const char *noisecmd[] = {"x", "noisetorch", NULL }; 
 
 #include "movestack.c"
 static Key keys[] = {
@@ -241,4 +244,5 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+
 
